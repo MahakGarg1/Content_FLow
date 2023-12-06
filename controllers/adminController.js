@@ -19,32 +19,9 @@ module.exports = {
             }); */
             res.render('admin/posts/index');
         },   
-   /* submitPosts: (req, res) => {
-        if (!req.body.title || !req.body.description) {
-            // Handle missing title or description
-            req.flash('error-message', 'Title and description are required.');
-            res.redirect('/admin/posts');
-            return;  // Exit the function to avoid further execution
-        }
+   
     
-        const newPost = new Post({
-            title: req.body.title,
-            status: req.body.status,
-            description: req.body.description
-        });
-        
-
-        newPost.save()
-            .then(post => {
-                req.flash('success-message', 'Post created successfully.');
-                res.redirect('/admin/posts');
-            })
-            .catch(error => {
-                console.error(error);
-                req.flash('error-message', 'Error creating post.');
-                res.redirect('/admin/posts');
-            });
-    }, */
+    
     /* submitPosts : async (req, res) => {
         try {
             console.log(req.body);
@@ -74,23 +51,8 @@ module.exports = {
             res.redirect('/admin/posts');
         }
     }, */
-    /*submitPosts: (req, res) => {
-        if (!req.body.title || !req.body.description) {
-            // Handle missing title or description
-            req.flash('error-message', 'Title and description are required.');
-            res.redirect('/admin/posts');
-            return;  // Exit the function to avoid further execution
-        }
-        const newPost = new Post({
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status
-        });
-        newPost.save().then(Post => {
-            req.flash('success-message', 'Post created successfully.');
-            res.redirect('/admin/posts');
-        });
-    },  */
+    
+
     submitPosts : async (req, res) => {
         try {
             console.log(req.body); // Log the form data

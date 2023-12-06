@@ -20,7 +20,7 @@ var globalVariables = (req, res, next) => {
 
 
 async function connectToDB() {
-    mongoose.connect("mongodb://127.0.0.1:27017/CMS/ContentFlow", { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connect("mongodb://127.0.0.1:27017/CMS", { useNewUrlParser: true, useUnifiedTopology: true })
       .then(() => {
         console.log('Connected to MongoDB');
         // Your database operations here
