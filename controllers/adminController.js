@@ -12,12 +12,12 @@ module.exports = {
 
 
     getPosts: (req, res) => {
-       /* Post.find()
-            .populate('category')
+        Post.find().lean()
+           // .populate('category')
             .then(posts => {
                 res.render('admin/posts/index', {posts: posts});
-            }); */
-            res.render('admin/posts/index');
+            });
+            
         },   
    
     

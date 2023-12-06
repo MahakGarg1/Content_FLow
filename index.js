@@ -49,8 +49,9 @@ app.use(globalVariables);
 
 //Setup View Engine To Use Handlebars 
 
-app.engine('handlebars',  hbs.engine({defaultLayout: 'default'}));
+app.engine('handlebars',  hbs.engine({defaultLayout: 'default', runtimeOptions:{allowedProtoPropertiesByDefault: true, allowProtoMethodsByDefault:true},}));
 app.set('view engine' , 'handlebars');
+
 
 
 // routes
