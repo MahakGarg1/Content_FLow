@@ -22,5 +22,8 @@ router.route('/')
     .get(adminController.createPostsGet)
     .post(adminController.submitPosts);
 
+    router.route('/posts/edit/:id')
+    .get(adminController.editPost);
+
 
 module.exports = router;

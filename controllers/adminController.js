@@ -56,22 +56,24 @@ module.exports = {
     submitPosts : async (req, res) => {
         try {
             console.log(req.body); // Log the form data
+            
+        const commentsAllowed = req.body.allowComments ? true : false;
         
-            const { title, status, description } = req.body;
-        
+           const { title, status, description } = req.body;
+           
             // Check if title and description are present in the request body
             if (!title || !description) {
                 req.flash('error-message', 'Title and description are required.');
                 res.redirect('/admin/posts');
                 return;
             }
-        
+            
             const newPost = new Post({
                 title,
                 status,
-                description
+                description,
+                commentsAllowed
             });
-        
             console.log(newPost); // Log the new post object
         
             const savedPost = await newPost.save();
@@ -87,5 +89,11 @@ module.exports = {
      },
     createPostsGet: (req, res) => {
         res.render('admin/posts/create');
+    },
+    editPost : (req, res) => {
+        const id = req.params.id;
+        Post.findById(id).lean().then( Post => {
+        res.render('admin/posts/edit',{Post : Post});
+        });
     }
 }
