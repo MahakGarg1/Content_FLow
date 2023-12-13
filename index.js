@@ -5,6 +5,7 @@ const hbs = require('express-handlebars');
 //const handlebars = require('handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
+const methodOverride = require('method-override');
 
 console.log(typeof hbs); // Check the type of handlebars
 
@@ -37,6 +38,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//app.use(methodOverride('_method'));
+
 // Flash and session
 app.use(session({
   secret: 'anysecret',
@@ -52,6 +56,8 @@ app.use(globalVariables);
 app.engine('handlebars',  hbs.engine({defaultLayout: 'default', runtimeOptions:{allowedProtoPropertiesByDefault: true, allowProtoMethodsByDefault:true},}));
 app.set('view engine' , 'handlebars');
 
+/* Method Override Middleware*/
+app.use(methodOverride('newMethod'));
 
 
 // routes

@@ -95,5 +95,38 @@ module.exports = {
         Post.findById(id).lean().then( Post => {
         res.render('admin/posts/edit',{Post : Post});
         });
+    },
+ /*   editPostUpdateRoute: (req, res) => {
+        const commentsAllowed = req.body.allowComments ? true : false;
+
+
+        const id = req.params.id;
+
+        Post.findById(id).lean()
+            .then(post => {
+
+                post.title = req.body.title;
+                post.status = req.body.status;
+                post.allowComments = req.body.allowComments;
+                post.description = req.body.description;
+               // post.category = req.body.category;
+
+
+                post.save().then(updatePost => {
+                    req.flash('success-message', `The Post ${updatePost.title} has been updated.`);
+                    res.redirect('/admin/posts');
+
+                });
+            });
+
+    } */
+    deletePost: (req, res) => {
+
+        Post.findByIdAndDelete(req.params.id)
+            .then(deletedPost => {
+                req.flash('success-message', `The post ${deletedPost.title} has been deleted.`);
+                res.redirect('/admin/posts');
+            });
     }
+
 }
