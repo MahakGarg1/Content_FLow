@@ -43,17 +43,20 @@
             $('.auto-hide').slideUp(300);
         }, 2000);
 
-
         $("#create-category-button").on('click', function (e) {
             e.preventDefault();
 
             var data = $("#category-title").val();
+            alert(data);
+            console.log('Category title:', data);
 
+            // Corrected the field name from 'name' to 'title'
             $.ajax({
-                url: '/admin/category/create',
+                url: '/admin/category',
                 type: 'POST',
-                data: {name: data},
+                data: { title: data },
                 success: function (response) {
+                    console.log('Success:', response);
 
                     var html = `<tr>
                         <td>${response.title}</td>
@@ -65,33 +68,14 @@
                         </td>
                     </tr>`;
 
-
                     $(".category-list").append(html);
-
+                },
+                error: function (error) {
+                    console.error('Error:', error.responseText);
                 }
             });
 
             $("#category-title").val('');
         });
-
-
-        $("#update-category-button").on('click', function (e) {
-            e.preventDefault();
-
-            var data = $("#category-title").val();
-            var id = $("#category-id").val();
-
-            $.ajax({
-                url: `/admin/category/edit/${id}`,
-                type: 'POST',
-                data: {name: data},
-                success: function (response) {
-                    window.location.href = response.url;
-                }
-            });
-        });
-
-
     });
-
 </script>

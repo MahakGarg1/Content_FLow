@@ -1,6 +1,7 @@
 const Post = require('../models/PostModel');
 const express = require('express');
 const session = require('express-session');
+const Category = require('../models/CategoryModel');
 
 module.exports = {
 
@@ -127,6 +128,40 @@ module.exports = {
                 req.flash('success-message', `The post ${deletedPost.title} has been deleted.`);
                 res.redirect('/admin/posts');
             });
+    },
+    /* ALL CATEGORY METHODS*/
+    getCategories: (req, res) => {
+
+        Category.find().lean().then(cats => {
+            res.render('admin/category/index', {categories: cats});
+        });
+    },
+        createCategories: async (req, res) => {
+            try {     console.log('Received category creation request:', req.body);
+                const categoryName = req.body.title;
+        
+                if (!categoryName) {
+                    req.flash('error-message', 'Category title is required.');
+                    res.redirect('/admin/category'); // Redirect to the category page
+                    return;
+                }
+        
+                const newCategory = new Category({
+                    title: categoryName
+                });
+        
+                const savedCategory = await newCategory.save();
+                console.log('Category created successfully:', savedCategory);
+
+                req.flash('success-message', 'Category created successfully.');
+                res.redirect('/admin/category'); // Redirect to the category page
+            } catch (error) {
+                console.error('Error creating category:', error);
+                req.flash('error-message', 'Error creating category.');
+                res.redirect('/admin/category'); // Redirect to the category page
+            }
+        }
+        
+
     }
 
-}
