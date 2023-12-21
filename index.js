@@ -6,6 +6,7 @@ const hbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const {selectOption} = require('./config/customFunctions');
 
 console.log(typeof hbs); // Check the type of handlebars
 
@@ -53,7 +54,7 @@ app.use(globalVariables);
 
 //Setup View Engine To Use Handlebars 
 
-app.engine('handlebars',  hbs.engine({defaultLayout: 'default', runtimeOptions:{allowedProtoPropertiesByDefault: true, allowProtoMethodsByDefault:true},}));
+app.engine('handlebars',  hbs.engine({defaultLayout: 'default', runtimeOptions:{allowedProtoPropertiesByDefault: true, allowProtoMethodsByDefault:true},  helpers: {select: selectOption}}));
 app.set('view engine' , 'handlebars');
 
 /* Method Override Middleware*/

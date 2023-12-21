@@ -14,7 +14,7 @@ module.exports = {
 
     getPosts: (req, res) => {
         Post.find().lean()
-           // .populate('category')
+           .populate('category')
             .then(posts => {
                 res.render('admin/posts/index', {posts: posts});
             });
@@ -60,7 +60,7 @@ module.exports = {
             
         const commentsAllowed = req.body.allowComments ? true : false;
         
-           const { title, status, description } = req.body;
+           const { title, status, description, category } = req.body;
            
             // Check if title and description are present in the request body
             if (!title || !description) {
@@ -73,7 +73,8 @@ module.exports = {
                 title,
                 status,
                 description,
-                commentsAllowed
+                commentsAllowed,
+                category
             });
             console.log(newPost); // Log the new post object
         
@@ -89,28 +90,39 @@ module.exports = {
         }
      },
     createPostsGet: (req, res) => {
-        res.render('admin/posts/create');
+        Category.find().lean().then(cats => {
+
+            res.render('admin/posts/create', {categories: cats});
+        });
+
     },
     editPost : (req, res) => {
         const id = req.params.id;
-        Post.findById(id).lean().then( Post => {
-        res.render('admin/posts/edit',{Post : Post});
-        });
+
+        Post.findById(id).lean()
+            .then(post => {
+
+                Category.find().lean().then(cats => {
+                    res.render('admin/posts/edit', {post: post, categories: cats});
+                });
+
+
+            })
     },
- /*   editPostUpdateRoute: (req, res) => {
+   editPostSubmit: (req, res) => {
         const commentsAllowed = req.body.allowComments ? true : false;
 
 
         const id = req.params.id;
 
-        Post.findById(id).lean()
+        Post.findById(id)
             .then(post => {
 
                 post.title = req.body.title;
                 post.status = req.body.status;
                 post.allowComments = req.body.allowComments;
                 post.description = req.body.description;
-               // post.category = req.body.category;
+               post.category = req.body.category;
 
 
                 post.save().then(updatePost => {
@@ -120,7 +132,9 @@ module.exports = {
                 });
             });
 
-    } */
+    }, 
+    
+        
     deletePost: (req, res) => {
 
         Post.findByIdAndDelete(req.params.id)

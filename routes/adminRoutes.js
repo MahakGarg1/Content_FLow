@@ -23,8 +23,8 @@ router.route('/')
     .post(adminController.submitPosts);
 
     router.route('/posts/edit/:id')
-    .get(adminController.editPost);
-   // .post(adminController.editPostUpdateRoute);
+    .get(adminController.editPost)
+    .put(adminController.editPostSubmit);
 
    router.route('/posts/delete/:id')
     .delete(adminController.deletePost);
