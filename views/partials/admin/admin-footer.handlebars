@@ -77,5 +77,24 @@
 
             $("#category-title").val('');
         });
+         $("#update-category-button").on('click', function (e) {
+            e.preventDefault();
+
+            var data = $("#category-title").val();
+            var id = $("#category-id").val();
+
+            $.ajax({
+                url: `/admin/category/edit/${id}`,
+                type: 'POST',
+                data: {title: data},
+                success: function (response) {
+                    window.location.href = response.url;
+                }
+                error: function (error) {
+            console.error('Error:', error.responseText);
+                }
+            });
+        });
+
     });
 </script>

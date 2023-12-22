@@ -109,30 +109,36 @@ module.exports = {
 
             })
     },
-   editPostSubmit: (req, res) => {
-        const commentsAllowed = req.body.allowComments ? true : false;
-
-
+       editPostSubmit: (req, res) => {
+        // Convert req.body.allowComments to a boolean
+        const allowComments = req.body.allowComments === 'on';
+    
         const id = req.params.id;
-
+    
         Post.findById(id)
             .then(post => {
-
+                // Update post fields
                 post.title = req.body.title;
                 post.status = req.body.status;
-                post.allowComments = req.body.allowComments;
+                post.allowComments = allowComments; // Use the converted boolean value
                 post.description = req.body.description;
-               post.category = req.body.category;
-
-
+                post.category = req.body.category;
+    
+                // Save the updated post
                 post.save().then(updatePost => {
                     req.flash('success-message', `The Post ${updatePost.title} has been updated.`);
                     res.redirect('/admin/posts');
-
+                })
+                .catch(error => {
+                    console.error(error);
+                    res.status(500).send('Internal Server Error');
                 });
+            })
+            .catch(error => {
+                console.error(error);
+                res.status(500).send('Internal Server Error');
             });
-
-    }, 
+    },
     
         
     deletePost: (req, res) => {
@@ -173,6 +179,38 @@ module.exports = {
                 console.error('Error creating category:', error);
                 req.flash('error-message', 'Error creating category.');
                 res.redirect('/admin/category'); // Redirect to the category page
+            }
+        },
+
+        editCategoriesGetRoute: async (req, res) => {
+            const catId = req.params.id;
+    
+            const cats = await Category.find().lean();
+    
+    
+            Category.findById(catId).lean().then(cat => {
+    
+                res.render('admin/category/edit', {category: cat, categories: cats});
+    
+            });
+        },
+       
+        editCategoriesPostRoute: (req, res) => {
+            const catId = req.params.id;
+            const newTitle = req.body.title;
+            console.log('Received data:', catId, newTitle);
+        
+            if (newTitle) {
+                Category.findById(catId).then(category => {
+                    category.title = newTitle;
+        
+                    category.save().then(updated => {
+                        res.redirect( '/admin/category' );
+                    });
+                }).catch(error => {
+                    console.error(error);
+                    res.status(500).json({ error: 'Internal Server Error' });
+                });
             }
         }
         
