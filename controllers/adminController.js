@@ -55,14 +55,16 @@ module.exports = {
     
 
     submitPosts : async (req, res) => {
-        try {
+       try {
             console.log(req.body); // Log the form data
             
         const commentsAllowed = req.body.allowComments ? true : false;
-        
-           const { title, status, description, category } = req.body;
+          // Check for any input file
+         // let filename = '';
+          //console.log(req.file);        
+          const { title, status, description, category } = req.body;
            
-            // Check if title and description are present in the request body
+          // Check if title and description are present in the request body
             if (!title || !description) {
                 req.flash('error-message', 'Title and description are required.');
                 res.redirect('/admin/posts');
@@ -76,7 +78,7 @@ module.exports = {
                 commentsAllowed,
                 category
             });
-            console.log(newPost); // Log the new post object
+            console.log(newPost); // Log the new post object  
         
             const savedPost = await newPost.save();
             console.log(savedPost); // Log the saved post object
@@ -86,8 +88,8 @@ module.exports = {
         } catch (error) {
             console.error(error);
             req.flash('error-message', 'Error creating post.');
-            res.redirect('/admin/posts');
-        }
+            res.redirect('/admin/posts'); 
+      } 
      },
     createPostsGet: (req, res) => {
         Category.find().lean().then(cats => {

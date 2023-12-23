@@ -7,12 +7,13 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const {selectOption} = require('./config/customFunctions');
+const fileUpload = require('express-fileupload');
 
 console.log(typeof hbs); // Check the type of handlebars
 
 
 const app = express();
-const port = 2005;
+const port = 2006;
 var globalVariables = (req, res, next) => {
   res.locals.success_message = req.flash('success-message');
   res.locals.error_message = req.flash('error-message');        
@@ -51,6 +52,10 @@ app.use(session({
 
 app.use(flash());
 app.use(globalVariables);
+
+/* File Upload Middleware*/
+app.use(fileUpload());
+
 
 //Setup View Engine To Use Handlebars 
 
