@@ -2,6 +2,7 @@ const Post = require('../models/PostModel');
 const express = require('express');
 const session = require('express-session');
 const Category = require('../models/CategoryModel');
+const {isEmpty} = require('../config/customFunctions');
 
 module.exports = {
 
@@ -60,10 +61,22 @@ module.exports = {
             
         const commentsAllowed = req.body.allowComments ? true : false;
           // Check for any input file
-         // let filename = '';
-          //console.log(req.file);        
+         let filename = '';
+          //console.log(req.file);   
+          
+          if(!isEmpty(req.files)) {
+            let file = req.files.uploadedFile;
+            filename = file.name;
+            let uploadDir = './public/uploads/';
+            
+            file.mv(uploadDir+filename, (err) => {
+                if (err)
+                    throw err;
+            });
+        }
+         
           const { title, status, description, category } = req.body;
-           
+            
           // Check if title and description are present in the request body
             if (!title || !description) {
                 req.flash('error-message', 'Title and description are required.');
@@ -76,7 +89,9 @@ module.exports = {
                 status,
                 description,
                 commentsAllowed,
-                category
+                category,
+                file: `/uploads/${filename}`
+
             });
             console.log(newPost); // Log the new post object  
         
