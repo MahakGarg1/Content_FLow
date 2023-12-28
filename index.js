@@ -8,12 +8,13 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const {selectOption} = require('./config/customFunctions');
 const fileUpload = require('express-fileupload');
+const passport = require('passport');
 
 console.log(typeof hbs); // Check the type of handlebars
 
 
 const app = express();
-const port = 2006;
+const port = 2007;
 var globalVariables = (req, res, next) => {
   res.locals.success_message = req.flash('success-message');
   res.locals.error_message = req.flash('error-message');        
@@ -51,6 +52,11 @@ app.use(session({
 }));
 
 app.use(flash());
+
+/* Passport Initialize */
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(globalVariables);
 
 /* File Upload Middleware*/
