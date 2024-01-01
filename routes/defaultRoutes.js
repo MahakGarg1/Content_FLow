@@ -5,6 +5,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const User = require('../models/UserModel');
+const flash = require('connect-flash');
 
 router.all('/*', (req, res, next) => {
 
@@ -13,10 +14,12 @@ router.all('/*', (req, res, next) => {
     next();
 })
 
+router.use(flash());
+
 router.route('/')
 .get( defaultController.index);
 
-
+/*
 // Defining Local Strategy
 passport.use(new LocalStrategy({
     usernameField: 'email',
@@ -40,7 +43,36 @@ passport.use(new LocalStrategy({
         });
 
     });
+}));  */
+
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passReqToCallback: true
+}, async (req, email, password, done) => {
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            req.authErrorMessage = 'User not found with this email.';
+            return done(null, false);
+        }
+
+        const passwordMatched = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatched) {
+            req.authErrorMessage = 'Invalid Username or Password';
+            return done(null, false);
+        }
+
+        req.authSuccessMessage = 'Login Successful';
+        return done(null, user);
+    } catch (error) {
+        console.error(error);
+        return done(error);
+    }
 }));
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -60,15 +92,43 @@ passport.deserializeUser(async function(id, done) {
     }
 });
 
-router.route('/login')
+/*router.route('/login')
 .get( defaultController.loginGet)
 .post(passport.authenticate('local', {
     successRedirect: '/admin',
     failureRedirect: '/login',
-    failureFlash: true,
-    successFlash: true,
+   // failureFlash: false,     //true,
+    //successFlash: false,       //true,
     session: true
-}) ,defaultController.loginPost); 
+}), (req, res, (err) => {
+    if (req.authSuccessMessage) {
+        res.render('success_view', { successMessage: req.authSuccessMessage });
+    } else if (req.authErrorMessage) {
+        res.render('error_view', { errorMessage: req.authErrorMessage });
+    } else {
+        next(err);
+    }
+}), defaultController.loginPost);  */
+router.route('/login')
+    .get(defaultController.loginGet)
+    .post((req, res, next) => {
+        passport.authenticate('local', {
+            successRedirect: '/admin',
+            failureRedirect: '/login',
+            failureFlash: true,   // Enable flash messages for failure
+            successFlash: true,
+            session: true
+        })(req, res, (err) => {
+            if (req.authSuccessMessage) {
+                res.render('success_view', { successMessage: req.authSuccessMessage });
+            } else if (req.authErrorMessage) {
+                res.render('error_view', { errorMessage: req.authErrorMessage });
+            } else {
+                next(err);
+            }
+        });
+    }, defaultController.loginPost);
+
 
 
 
@@ -77,6 +137,25 @@ router.route('/login')
 router.route('/register')
     .get(defaultController.registerGet)
     .post(defaultController.registerPost);
+
+
+    router.route('/post/:id')
+    .get(defaultController.getSinglePost)
+    .post(defaultController.submitComment);
+
+
+   /* router.get('/logout', (req, res) => {
+        req.logOut();
+        req.flash('success-message', 'Logout was successful');
+        res.redirect('/');
+    });  */
+    router.get('/logout', (req, res) => {
+        console.log('Session before logout:', req.session);
+        req.logOut();
+        console.log('Session after logout:', req.session);
+        req.flash('success-message', 'Logout was successful');
+        res.redirect('/');
+    });
 
 
 

@@ -2,6 +2,7 @@ const Post = require('../models/PostModel');
 const express = require('express');
 const session = require('express-session');
 const Category = require('../models/CategoryModel');
+const Comment = require('../models/CommentModel');
 const {isEmpty} = require('../config/customFunctions');
 
 module.exports = {
@@ -59,7 +60,9 @@ module.exports = {
        try {
             console.log(req.body); // Log the form data
             
-        const commentsAllowed = req.body.allowComments ? true : false;
+      //  const commentsAllowed = req.body.allowComments ? true : false;
+      const commentsAllowed = req.body.allowComments === 'on';
+
           // Check for any input file
          let filename = '';
           //console.log(req.file);   
@@ -229,8 +232,15 @@ module.exports = {
                     res.status(500).json({ error: 'Internal Server Error' });
                 });
             }
-        }
-        
+        },
+          /* COMMENT ROUTE SECTION*/
+    getComments: (req, res) => {
+        Comment.find().lean()
+            .populate('user')
+            .then(comments => {
+                res.render('admin/comments/index', {comments: comments});
+            })
+    }
 
     }
 

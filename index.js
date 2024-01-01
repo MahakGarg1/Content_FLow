@@ -14,7 +14,7 @@ console.log(typeof hbs); // Check the type of handlebars
 
 
 const app = express();
-const port = 2007;
+const port = 2010;
 var globalVariables = (req, res, next) => {
   res.locals.success_message = req.flash('success-message');
   res.locals.error_message = req.flash('error-message');        
