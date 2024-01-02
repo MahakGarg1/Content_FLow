@@ -1,12 +1,12 @@
 {
-  "name": "content-flow",
+  "name": "cms-content-flow",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Mahak Garg",
+  "author": "mahak garg",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -19,7 +19,7 @@
     "flash": "^1.1.0",
     "handlebars": "^4.7.8",
     "method-override": "^3.0.0",
-    "mongoose": "^8.0.2",
+    "mongoose": "^8.0.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
