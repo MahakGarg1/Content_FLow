@@ -74,3 +74,11 @@ The `User` model represents registered users in the system.
   - `lastName`: String (required) - The user's last name.
   - `email`: String (required) - The user's email address.
   - `password`: String (required) - The hashed password for user authentication.
+
+## API's
+
+## Register/Login
+```
+1. Create a new user account: [http://localhost:3000/register](http://localhost:3000/register)
+2. Log in: [http://localhost:3000/login](http://localhost:3000/login)
+```
