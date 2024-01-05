@@ -30,3 +30,47 @@ Users can submit comments on content posts. Admins can review and manage comment
 - **Express Session:** Middleware for handling sessions.
 - **Connect Flash:** Middleware for displaying flash messages.
 - **Multer:** Middleware for handling file uploads.
+
+## Data Models
+
+### Category Model
+
+The `Category` model represents content categories within the system.
+
+- **Fields:**
+  - `title`: String (required) - The title of the category.
+
+  ### Comment Model
+
+The `Comment` model represents comments made on content posts.
+
+- **Fields:**
+  - `body`: String (required) - The content of the comment.
+  - `user`: ObjectId (ref: 'user') - The user who submitted the comment.
+  - `date`: Date - The date when the comment was created.
+  - `commentIsApproved`: Boolean - A flag indicating whether the comment is approved (default: true).
+
+  ### Post Model
+
+The `Post` model represents individual blog posts.
+
+- **Fields:**
+  - `title`: String (required) - The title of the post.
+  - `status`: String - The status of the post (default: 'public').
+  - `description`: String (required) - The content of the post.
+  - `creationDate`: Date - The date when the post was created.
+  - `user`: ObjectId (ref: 'user') - The user who created the post.
+  - `category`: ObjectId (ref: 'category') - The category to which the post belongs.
+  - `comments`: Array of ObjectId (ref: 'comment') - An array of comments associated with the post.
+  - `allowComments`: Boolean - A flag indicating whether comments are allowed on the post (default: true).
+  - `file`: String - The file path or name associated with the post (default: '').
+
+### User Model
+
+The `User` model represents registered users in the system.
+
+- **Fields:**
+  - `firstName`: String (required) - The user's first name.
+  - `lastName`: String (required) - The user's last name.
+  - `email`: String (required) - The user's email address.
+  - `password`: String (required) - The hashed password for user authentication.
