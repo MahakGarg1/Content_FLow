@@ -82,3 +82,26 @@ The `User` model represents registered users in the system.
 1. Create a new user account: [http://localhost:3000/register](http://localhost:3000/register)
 2. Log in: [http://localhost:3000/login](http://localhost:3000/login)
 ```
+
+## Admin Portal
+```
+After logging in, access the admin portal: [http://localhost:3000/admin](http://localhost:3000/admin)
+```
+## Post Management
+```
+1. Create, edit, and delete content posts: [http://localhost:3000/admin/posts](http://localhost:3000/admin/posts)
+2. Upload images for posts.
+```
+## Category Management
+```
+1. Create, delete and edit content categories: [http://localhost:3000/admin/category](http://localhost:3000/admin/category)
+```
+## Comment Management
+```
+Review and manage comments: [http://localhost:3000/admin/comment](http://localhost:3000/admin/comment)
+```
+
+## Logout
+```
+Log out: [http://localhost:3000/logout](http://localhost:3000/logout)
+```
