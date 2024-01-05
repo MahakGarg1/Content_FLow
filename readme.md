@@ -31,6 +31,22 @@ Users can submit comments on content posts. Admins can review and manage comment
 - **Connect Flash:** Middleware for displaying flash messages.
 - **Multer:** Middleware for handling file uploads.
 
+## Installation
+
+1. **Clone the Repository:**
+```
+https://github.com/MahakGarg1/Content_FLow.git
+```
+
+2. **Install Dependencies:**
+```
+npm install
+
+```
+3. **Start the Application:**
+```
+node index.js
+```
 ## Data Models
 
 ### Category Model
