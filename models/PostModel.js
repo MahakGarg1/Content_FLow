@@ -38,7 +38,7 @@ const PostSchema = new Schema({
     ],
     allowComments: {
         type: Boolean,
-        default: false
+        default: true
     },
     file: {
         type: String,

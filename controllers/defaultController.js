@@ -16,9 +16,34 @@ module.exports = {
     loginGet: (req, res) => {
         res.render('default/login');
     },
-    loginPost: (req, res) => {
+   loginPost: (req, res) => {
         res.send("Login successfully");
-    },
+    }, 
+    /*loginPost: async (req, res) => {
+        try {
+            const user = await User.findOne({ email: req.body.email });
+    
+            if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+                return res.render('default/login', {
+                    errorMessage: 'Invalid email or password',
+                    email: req.body.email
+                });
+            }
+    
+           return res.render('admin', {
+                successMessage: 'Login successful',
+                email: req.body.email
+            });
+        
+        } catch (error) {
+            console.error(error);
+            return res.render('default/login', {
+                errorMessage: 'An error occurred during login',
+                email: req.body.email    
+            });
+        }
+    }, */
+    
     registerGet: (req, res) => {
         res.render('default/register');
     },

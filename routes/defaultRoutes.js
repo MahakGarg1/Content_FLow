@@ -92,23 +92,6 @@ passport.deserializeUser(async function(id, done) {
     }
 });
 
-/*router.route('/login')
-.get( defaultController.loginGet)
-.post(passport.authenticate('local', {
-    successRedirect: '/admin',
-    failureRedirect: '/login',
-   // failureFlash: false,     //true,
-    //successFlash: false,       //true,
-    session: true
-}), (req, res, (err) => {
-    if (req.authSuccessMessage) {
-        res.render('success_view', { successMessage: req.authSuccessMessage });
-    } else if (req.authErrorMessage) {
-        res.render('error_view', { errorMessage: req.authErrorMessage });
-    } else {
-        next(err);
-    }
-}), defaultController.loginPost);  */
 router.route('/login')
     .get(defaultController.loginGet)
     .post((req, res, next) => {
@@ -120,9 +103,11 @@ router.route('/login')
             session: true
         })(req, res, (err) => {
             if (req.authSuccessMessage) {
-                res.render('success_view', { successMessage: req.authSuccessMessage });
+//res.render('success_view', { successMessage: req.authSuccessMessage });
+req.session.successMessage = req.authSuccessMessage;
             } else if (req.authErrorMessage) {
-                res.render('error_view', { errorMessage: req.authErrorMessage });
+                req.session.errorMessage = req.authErrorMessage;
+                //res.render('error_view', { errorMessage: req.authErrorMessage });
             } else {
                 next(err);
             }
@@ -150,10 +135,8 @@ router.route('/register')
         res.redirect('/');
     });  */
     router.get('/logout', (req, res) => {
-        console.log('Session before logout:', req.session);
         req.logOut();
-        console.log('Session after logout:', req.session);
-        req.flash('success-message', 'Logout was successful');
+        req.flash('success', 'Logout was successful');
         res.redirect('/');
     });
 
