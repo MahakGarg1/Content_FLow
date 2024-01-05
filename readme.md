@@ -20,3 +20,13 @@ Admin users can create and edit content categories.
 
 Users can submit comments on content posts. Admins can review and manage comments.
 
+## Technologies Used
+
+- **Node.js:** Server-side JavaScript runtime.
+- **Express.js:** Web application framework for Node.js.
+- **MongoDB:** NoSQL database for storing content posts, categories, users, and comments.
+- **Mongoose:** ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **Bcrypt:** Library for hashing passwords.
+- **Express Session:** Middleware for handling sessions.
+- **Connect Flash:** Middleware for displaying flash messages.
+- **Multer:** Middleware for handling file uploads.
