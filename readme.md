@@ -20,6 +20,8 @@ Admin users can create and edit content categories.
 
 Users can submit comments on content posts. Admins can review and manage comments.
 
+![Alt text](<CMS Diagram.png>)
+
 ## Technologies Used
 
 - **Node.js:** Server-side JavaScript runtime.
