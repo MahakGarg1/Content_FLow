@@ -37,7 +37,7 @@ Users can submit comments on content posts. Admins can review and manage comment
 
 1. **Clone the Repository:**
 ```
-https://github.com/MahakGarg1/Content_FLow.git
+git clone https://github.com/MahakGarg1/Content_FLow.git
 ```
 
 2. **Install Dependencies:**
